@@ -34,7 +34,7 @@ class MantisUiEnhancedPlugin extends MantisPlugin {
 	
 	function hooks() {
 		return array(
-//			'EVENT_LAYOUT_RESOURCES' => 'resources',	// appended into <head>
+			'EVENT_LAYOUT_RESOURCES' => 'resources',	// appended into <head>
 		);
 	}
 
