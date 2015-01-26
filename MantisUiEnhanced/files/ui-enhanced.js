@@ -15,6 +15,7 @@ UiEnhanced = {
 
       switch( document.location.pathname.replace("_page.php", "") ) {
           case "/login":
+                // Wrap all login labels with <label> tags, pointing to the rel. <input> element
               jQuery('form[name=login_form]').find("td.category").each(function(index, el){
                   jQuery(el).html("<label for=\"" + UiEnhanced.loginLabelIDs[index] + "\">" + el.innerHTML + "</label");
               });
@@ -24,6 +25,11 @@ UiEnhanced = {
               break;
 
           case "/view_all_bug":
+                // Move search options row (from below to) above search filters (toggle will then not relocate it)
+              var filterTable       = jQuery("#filters_form_open");
+              var filterTableRows   = jQuery(filterTable).find("tr");
+              var filterRowOptions  = jQuery(filterTableRows).last();
+              jQuery(filterRowOptions).insertBefore( jQuery(filterTableRows).first() );
               break;
 
           case "/bug_report":
