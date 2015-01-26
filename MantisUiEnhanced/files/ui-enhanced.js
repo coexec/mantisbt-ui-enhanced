@@ -11,6 +11,7 @@ UiEnhanced = {
     ],
 
     init: function() {
+      this.insertStyles();
       this.addElementIDs();
 
       switch( document.location.pathname.replace("_page.php", "") ) {
@@ -22,14 +23,12 @@ UiEnhanced = {
               break;
 
           case "/my_view":
+
               break;
 
           case "/view_all_bug":
-                // Move search options row (from below to) above search filters (toggle will then not relocate it)
-              var filterTable       = jQuery("#filters_form_open");
-              var filterTableRows   = jQuery(filterTable).find("tr");
-              var filterRowOptions  = jQuery(filterTableRows).last();
-              jQuery(filterRowOptions).insertBefore( jQuery(filterTableRows).first() );
+              UiEnhanced.moveBottomTr("#filters_form_open");
+              UiEnhanced.moveBottomTr("#buglist", 1);
               break;
 
           case "/bug_report":
@@ -53,6 +52,16 @@ UiEnhanced = {
     },
 
     /**
+     * Add <style> tag into <head>
+     */
+    insertStyles: function() {
+        var rules =
+            "table.hoverable tr { filter: sepia(0%) }" +
+            "table.hoverable tr:hover { filter: sepia(20%) }";
+        jQuery("<style type='text/css'>" + rules + "</style>").appendTo("head");
+    },
+
+    /**
      * Find relevant elements (input, select) w/o id-tag and add it generically
      */
     addElementIDs: function() {
@@ -60,7 +69,20 @@ UiEnhanced = {
         jQuery("body :input:not([id])").each(function(index, element) {
             element.id = element.name;
         });
+    },
+
+    /**
+     * @param   {String}    idElementOuter
+     * @param   {Number}    [offsetNew]     Default: 0 (topmost)
+     */
+    moveBottomTr: function(idElementOuter, offsetNew) {
+        offsetNew = typeof offsetNew == 'undefined' ? 0 : offsetNew;
+
+        var rows    = jQuery(idElementOuter).find("tr");
+        var lastRow = jQuery(rows).last();
+        jQuery(lastRow).insertBefore( jQuery(rows)[offsetNew] );
     }
+
 };
 
 jQuery(document).ready(function() {
