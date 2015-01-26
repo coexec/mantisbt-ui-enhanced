@@ -11,7 +11,6 @@ UiEnhanced = {
     ],
 
     init: function() {
-      this.insertStyles();
       this.addElementIDs();
 
       switch( document.location.pathname.replace("_page.php", "") ) {
@@ -23,12 +22,15 @@ UiEnhanced = {
               break;
 
           case "/my_view":
-
               break;
 
           case "/view_all_bug":
               UiEnhanced.moveBottomTr("#filters_form_open");
               UiEnhanced.moveBottomTr("#buglist", 1);
+              UiEnhanced.wrapTextNode(jQuery("#buglist").find('span.small'),  "<label for=\"all_bugs\">");
+              UiEnhanced.wrapTextNode(jQuery("#filters_form_closed").find("td").filter(function() {
+                  return jQuery(this).attr('colspan') == 2
+              }), "<label for=\"search\">");
               break;
 
           case "/bug_report":
@@ -52,22 +54,20 @@ UiEnhanced = {
     },
 
     /**
-     * Add <style> tag into <head>
-     */
-    insertStyles: function() {
-        var rules =
-            "table.hoverable tr { filter: sepia(0%) }" +
-            "table.hoverable tr:hover { filter: sepia(20%) }";
-        jQuery("<style type='text/css'>" + rules + "</style>").appendTo("head");
-    },
-
-    /**
-     * Find relevant elements (input, select) w/o id-tag and add it generically
+     * Find relevant elements (input, select) w/o id attribute and add a generic id
+     * Generic id is created from the element name, if there's an element w/ that id already: append an offset
      */
     addElementIDs: function() {
         // Add IDs to anonymous <input> elements
-        jQuery("body :input:not([id])").each(function(index, element) {
-            element.id = element.name;
+        var elementID;
+        jQuery("body :input:not([id])").filter(":visible").each(function(index, element) {
+            if( element.type != "hidden" && element.name != null && element.name.length > 0 ) {
+                element.id = element.name.replace("[", "").replace("]", "");
+
+                if( jQuery(element.id).length > 1 ) {
+                    element.id += "-1";
+                }
+            }
         });
     },
 
@@ -81,8 +81,17 @@ UiEnhanced = {
         var rows    = jQuery(idElementOuter).find("tr");
         var lastRow = jQuery(rows).last();
         jQuery(lastRow).insertBefore( jQuery(rows)[offsetNew] );
-    }
+    },
 
+    /**
+     * @param   {Element}   container
+     * @param   {String}    wrapTag
+     */
+    wrapTextNode: function(container,  wrapTag) {
+        container.contents().filter(function() {
+            return this.nodeType === 3
+        }).wrap(wrapTag);
+    }
 };
 
 jQuery(document).ready(function() {
