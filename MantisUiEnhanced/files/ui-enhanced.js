@@ -13,15 +13,15 @@ UiEnhanced = {
     init: function() {
       this.addElementIDs();
 
-      switch( document.location.pathname.replace("_page.php", "") ) {
-          case "/login":
+      switch( this.getCurrentPageIdentifier() ) {
+          case "login":
                 // Wrap all login labels with <label> tags, pointing to the rel. <input> element
               jQuery('form[name=login_form]').find("td.category").each(function(index, el){
                   jQuery(el).html("<label for=\"" + UiEnhanced.loginLabelIDs[index] + "\">" + el.innerHTML + "</label");
               });
               break;
 
-          case "/my_view":
+          case "my_view":
               break;
 
           case "/view_all_bug":
@@ -33,24 +33,34 @@ UiEnhanced = {
               }), "<label for=\"search\">");
               break;
 
-          case "/bug_report":
+          case "bug_report":
               break;
 
-          case "/changelog":
+          case "changelog":
               break;
 
-          case "/roadmap":
+          case "roadmap":
               break;
 
-          case "/summary":
+          case "summary":
               break;
 
-          case "/manage_overview":
+          case "manage_overview":
               break;
 
-          case "/account":
+          case "account":
               break;
       }
+    },
+
+    /**
+     * @returns {String}
+     */
+    getCurrentPageIdentifier: function() {
+        var page = document.location.pathname.replace("_page.php", "");
+        var parts= page.split("/");
+
+        return parts[ parts.length-1 ];
     },
 
     /**
