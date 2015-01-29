@@ -3,12 +3,7 @@ UiEnhanced = {
     /**
      * IDs of elements linked by labels in login page
      */
-    loginLabelIDs: [
-        "username",
-        "password",
-        "perm_login",
-        "secure_session"
-    ],
+    loginLabelIDs: ["username", "password", "perm_login", "secure_session"],
 
     init: function() {
       this.addElementIDs();
@@ -81,15 +76,15 @@ UiEnhanced = {
             if( !visibilityMethod ) {
                 visibilityMethod = jQuery(UiEnhanced.findTdByContainedText("Reproducibility").closest('tr')).is(":visible") ? "hide" : "show";
             }
-            jQuery(UiEnhanced.findTdByContainedText("Reproducibility").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Severity").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Priority").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Steps To Reproduce").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Select Profile").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Or Fill In").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Additional Information").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("View Status").closest('tr'))[visibilityMethod]();
-            jQuery(UiEnhanced.findTdByContainedText("Report Stay").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.Reproducibility ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.Severity ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.Priority ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.steps_to_reproduce ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.select_profile ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.or_fill_in ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.additional_information ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.view_status ).closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText( UiEnhancedLabels.report_stay ).closest('tr'))[visibilityMethod]();
         }
     },
 

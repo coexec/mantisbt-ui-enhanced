@@ -39,7 +39,21 @@ class MantisUiEnhancedPlugin extends MantisPlugin {
 	}
 
 	function resources( $p_event ) {
-		return '<script type="text/javascript" src="' . plugin_file( 'ui-enhanced.js' ) . '"></script>';
+        include( 'lang/strings_' . lang_get_current() . '.txt' );
+
+		return '<script type="text/javascript">' /* Define localized labels to allow UiEnhancer sizzle to select element via innerHTML */ . '
+                UiEnhancedLabels = {
+                    Reproducibility         : "' . $s_email_reproducibility . '",
+                    Severity                : "' . $s_email_severity . '",
+                    Priority                : "' . $s_email_priority . '",
+                    steps_to_reproduce      : "' . $s_steps_to_reproduce . '",
+                    select_profile          : "' . $s_select_profile . '",
+                    or_fill_in              : "' . $s_or_fill_in . '",
+                    additional_information  : "' . $s_additional_information . '",
+                    view_status             : "' . $s_view_status . '",
+                    report_stay             : "' . $s_report_stay . '"
+                };</script>'
+             . '<script type="text/javascript" src="' . plugin_file( 'ui-enhanced.js' ) . '"></script>';
 	}
 
 
