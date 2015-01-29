@@ -24,9 +24,12 @@ UiEnhanced = {
           case "my_view":
               break;
 
-          case "/view_all_bug":
+          case "view_all_bug":
+                // Move options' rows of tables topmost, to stop them from changing position upon expand/collapse
               UiEnhanced.moveBottomTr("#filters_form_open");
               UiEnhanced.moveBottomTr("#buglist", 1);
+
+                // Make labels clickable <label>s
               UiEnhanced.wrapTextNode(jQuery("#buglist").find('span.small'),  "<label for=\"all_bugs\">");
               UiEnhanced.wrapTextNode(jQuery("#filters_form_closed").find("td").filter(function() {
                   return jQuery(this).attr('colspan') == 2
@@ -34,6 +37,18 @@ UiEnhanced = {
               break;
 
           case "bug_report":
+                // Initially hide less important fields
+                // @todo    make language independent, e.g inject labels via PHP
+              UiEnhanced.toggleSecondaryFields("bug_report", false);
+
+                // Add toggle button to show/hide secondary fields
+              jQuery('.form-title').parent().parent().append(
+                  jQuery(
+                      "<tr><td><a style=\"cursor:pointer\" onclick=\"UiEnhanced.toggleSecondaryFields(); return false\">"
+                      + "<img border=\"0\" alt=\"+\" src=\"images/plus.png\" />"
+                      + "</a>&nbsp;Toggle Secondary Fields</td></tr>"
+                  )
+              );
               break;
 
           case "changelog":
@@ -51,6 +66,31 @@ UiEnhanced = {
           case "account":
               break;
       }
+    },
+
+    /**
+     * @param   {String}    [section]   Default: "bug_report"
+     * @param   {Boolean}   [show]      If undefined: detect and inverse current visibility of fields of section
+     */
+    toggleSecondaryFields: function(section, show) {
+        section = typeof section == 'undefined' ? 'bug_report' : section;
+
+        var visibilityMethod = typeof show == 'undefined' ? false : (show ? 'show' : 'hide');
+
+        if(section == "bug_report") {
+            if( !visibilityMethod ) {
+                visibilityMethod = jQuery(UiEnhanced.findTdByContainedText("Reproducibility").closest('tr')).is(":visible") ? "hide" : "show";
+            }
+            jQuery(UiEnhanced.findTdByContainedText("Reproducibility").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Severity").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Priority").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Steps To Reproduce").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Select Profile").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Or Fill In").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Additional Information").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("View Status").closest('tr'))[visibilityMethod]();
+            jQuery(UiEnhanced.findTdByContainedText("Report Stay").closest('tr'))[visibilityMethod]();
+        }
     },
 
     /**
@@ -101,6 +141,16 @@ UiEnhanced = {
         container.contents().filter(function() {
             return this.nodeType === 3
         }).wrap(wrapTag);
+    },
+
+    /**
+     * @param   {String}    text
+     * @returns {Element}
+     */
+    findTdByContainedText: function(text) {
+        return jQuery("td").filter(function() {
+            return jQuery.text([this]).indexOf(text) > -1;
+        });
     }
 };
 
