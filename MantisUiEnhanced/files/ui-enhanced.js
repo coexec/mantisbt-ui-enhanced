@@ -8,6 +8,8 @@ UiEnhanced = {
     init: function() {
       this.addElementIDs();
 
+      this.hideDefaultFooter();
+
       switch( this.getCurrentPageIdentifier() ) {
           case "login":
                 // Wrap all login labels with <label> tags, pointing to the rel. <input> element
@@ -32,8 +34,6 @@ UiEnhanced = {
               break;
 
           case "bug_report":
-                // Initially hide less important fields
-                // @todo    make language independent, e.g inject labels via PHP
               UiEnhanced.toggleSecondaryFields("bug_report", false);
 
                 // Add toggle button to show/hide secondary fields
@@ -116,6 +116,15 @@ UiEnhanced = {
         });
     },
 
+    hideDefaultFooter: function() {
+        var hrs = jQuery('hr');
+        jQuery(this.getLastItemOfObject(hrs)).hide();
+
+        var addresses = jQuery('address');
+        jQuery(this.getLastItemOfObject(addresses)).hide();
+
+    },
+
     /**
      * @param   {String}    idElementOuter
      * @param   {Number}    [offsetNew]     Default: 0 (topmost)
@@ -146,6 +155,14 @@ UiEnhanced = {
         return jQuery("td").filter(function() {
             return jQuery.text([this]).indexOf(text) > -1;
         });
+    },
+
+    /**
+     * @param   {Object}  obj
+     * @returns {*}
+     */
+    getLastItemOfObject: function(obj) {
+        return obj[Object.keys(obj)[Object.keys(obj).length - 1]];
     }
 };
 
