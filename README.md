@@ -12,6 +12,7 @@ What does it do?
   * Faster entering of new issues
     * Secondary (less important) fields for filing new issues are by default hidden, they can be shown with a new button.
     * Optional description: when entering no description, the issue description is copied from the summary when saving.
+    * Optional category: when not selecting any category, the issue category is set to "General" when saving.
 * More harmonic UI
   * The options row in table based lists is moved topmost, so that toggeling the options does not cause itself to "jump" in the page
   * Less Clutter: The default footer is reduced to the MantisBT logo and link.

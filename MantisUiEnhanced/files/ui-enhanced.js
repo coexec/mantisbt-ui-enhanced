@@ -45,11 +45,17 @@ UiEnhanced = {
                   )
               );
 
-              // Enhance submit button: if description is empty- fill it out by copying the summary into it
+              // Enhance submission
               jQuery('input.button[type=submit]').click(function() {
+                  // if description is empty- fill it out by copying the summary into it
                   var elDescription = jQuery('#description');
                   if(elDescription.val()== '') {
                       elDescription.val( jQuery('#summary').val() );
+                  }
+                  // if category not set- select "General"
+                  var elCategory = jQuery('#category_id');
+                  if(elCategory.val()== '0') {
+                      elCategory.val(1);
                   }
               });
               break;
