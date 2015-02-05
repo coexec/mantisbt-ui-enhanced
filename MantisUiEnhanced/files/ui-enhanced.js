@@ -44,6 +44,14 @@ UiEnhanced = {
                       + "</a>&nbsp;Toggle Secondary Fields</td></tr>"
                   )
               );
+
+              // Enhance submit button: if description is empty- fill it out by copying the summary into it
+              jQuery('input.button[type=submit]').click(function() {
+                  var elDescription = jQuery('#description');
+                  if(elDescription.val()== '') {
+                      elDescription.val( jQuery('#summary').val() );
+                  }
+              });
               break;
 
           case "changelog":
